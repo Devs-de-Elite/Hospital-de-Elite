@@ -1,0 +1,23 @@
+body {
+    background-color: #E4E6DA;
+}
+.row {
+    display: flex;
+    justify-content: center;
+}
+.container {
+    background-color: #E4E6DA;
+    margin-top: 6.5%;
+}
+.btn {
+    background-color: #324737;
+    border-color: #253529;
+}
+.btn-dark {
+    --bs-btn-bg: #243529;
+    --bs-btn-border-color: #243529;
+    --bs-btn-hover-bg: #243529;
+    --bs-btn-hover-border-color: #243529;
+    --bs-btn-active-bg: #476850;
+    --bs-btn-active-border-color: #476850;
+}
