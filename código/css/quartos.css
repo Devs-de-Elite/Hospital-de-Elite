@@ -1,0 +1,10 @@
+.card-header {
+    background-color: #506444;
+    color: #fff;
+    font-weight: 600;
+}
+
+.dropdown-menu {
+    --bs-dropdown-link-hover-bg: #dbe9c4;
+    --bs-dropdown-link-active-bg: #476850;
+}

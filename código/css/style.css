@@ -43,3 +43,8 @@ h1 {
 .card-body {
     border-radius: 0.5rem;
 }
+.conjuntoBtn {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
