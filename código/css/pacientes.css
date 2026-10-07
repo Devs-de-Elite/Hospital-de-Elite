@@ -1,0 +1,12 @@
+.container {
+    margin-top: 2rem;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.card-body {
+    border-radius: 0.5rem;
+}
