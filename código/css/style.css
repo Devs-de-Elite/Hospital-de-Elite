@@ -26,3 +26,20 @@ body {
     --bs-btn-active-bg: #476850;
     --bs-btn-active-border-color: #476850;
 }
+
+.barra-acoes {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.card-body {
+    border-radius: 0.5rem;
+}
