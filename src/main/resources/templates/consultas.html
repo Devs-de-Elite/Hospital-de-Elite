@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internações</title>
+    <title>Consultas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/internacoes.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/consultas.css">
 </head>
 <body>
-    <a href="homepage.html" type="button" class="btn btn-dark m-3">⬅️ Voltar</a>
-    <h1>Internações</h1>
+    <a th:href="@{/homepage}" type="button" class="btn btn-dark m-3">⬅️ Voltar</a>
+    <h1>Consultas</h1>
     <div class="container barra-acoes">
         <input type="hello" placeholder="Pesquisar...">
-        <a href="#" class="btn btn-dark">Adicionar nova internação</a>
+        <a href="#" class="btn btn-dark">Adicionar nova consulta</a>
     </div>
     <div class="container">
         <div class="row g-3">
@@ -23,11 +23,10 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Paciente: </li>
                         <li class="list-group-item">Profissional Responsável: </li>
-                        <li class="list-group-item">Quarto: </li>
-                        <li class="list-group-item">Data de Entrada: </li>
-                        <li class="list-group-item">Data prevista de alta: </li>
-                        <li class="list-group-item">Data efetiva de alta: </li>
-                        <li class="list-group-item">Observações: </li>
+                        <li class="list-group-item">Data: </li>
+                        <li class="list-group-item">Horário: </li>
+                        <li class="list-group-item">Motivo da Consulta: </li>
+                        <li class="list-group-item">Observações Médicas: </li>
                     </ul>
                     <div class="card-body conjuntoBtn">
                         <a href="#" class="btn btn-dark">Editar</a>
@@ -40,11 +39,10 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Paciente: </li>
                         <li class="list-group-item">Profissional Responsável: </li>
-                        <li class="list-group-item">Quarto: </li>
-                        <li class="list-group-item">Data de Entrada: </li>
-                        <li class="list-group-item">Data prevista de alta: </li>
-                        <li class="list-group-item">Data efetiva de alta: </li>
-                        <li class="list-group-item">Observações: </li>
+                        <li class="list-group-item">Data: </li>
+                        <li class="list-group-item">Horário: </li>
+                        <li class="list-group-item">Motivo da Consulta: </li>
+                        <li class="list-group-item">Observações Médicas: </li>
                     </ul>
                     <div class="card-body conjuntoBtn">
                         <a href="#" class="btn btn-dark">Editar</a>
@@ -57,11 +55,10 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Paciente: </li>
                         <li class="list-group-item">Profissional Responsável: </li>
-                        <li class="list-group-item">Quarto: </li>
-                        <li class="list-group-item">Data de Entrada: </li>
-                        <li class="list-group-item">Data prevista de alta: </li>
-                        <li class="list-group-item">Data efetiva de alta: </li>
-                        <li class="list-group-item">Observações: </li>
+                        <li class="list-group-item">Data: </li>
+                        <li class="list-group-item">Horário: </li>
+                        <li class="list-group-item">Motivo da Consulta: </li>
+                        <li class="list-group-item">Observações Médicas: </li>
                     </ul>
                     <div class="card-body conjuntoBtn">
                         <a href="#" class="btn btn-dark">Editar</a>

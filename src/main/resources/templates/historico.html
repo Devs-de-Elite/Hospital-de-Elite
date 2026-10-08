@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico Médico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/historico.css">
+</head>
+<body>
+    <a th:href="@{/pacientes}" type="button" class="btn btn-dark m-3">⬅️ Voltar</a>
+    <h1>Histórico Médico</h1>
+    <div class="container">
+        <h2>Eduardo</h2>
+        <div class="row g-3">
+            <div class="col-12">
+                <h5>Consultas Realizadas:</h5>
+                <div class="card">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Profissional Responsável: </li>
+                        <li class="list-group-item">Data: </li>
+                        <li class="list-group-item">Horário: </li>
+                        <li class="list-group-item">Motivo da Consulta: </li>
+                        <li class="list-group-item">Observações Médicas: </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12">
+                <h5>Internações Realizadas:</h5>
+                <div class="card">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Profissional Responsável: </li>
+                        <li class="list-group-item">Quarto: </li>
+                        <li class="list-group-item">Data de Entrada: </li>
+                        <li class="list-group-item">Data prevista de alta: </li>
+                        <li class="list-group-item">Data efetiva de alta: </li>
+                        <li class="list-group-item">Observações: </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12">
+                <h5>Informações Relevantes:</h5>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit obcaecati facilis repellendus soluta expedita necessitatibus modi cumque, iure cupiditate sunt magni mollitia nisi. Deleniti inventore illo, architecto doloribus pariatur exercitationem!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
