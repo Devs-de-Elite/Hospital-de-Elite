@@ -5,4 +5,4 @@ Trabalho Glender PM
 ![alt text](docs/SistemaHospitalar.drawio.png)
 
 ## CRC
-[text](<docs/Cartões CRC.pdf>)
+[CRC](<docs/Cartões CRC.pdf>)
