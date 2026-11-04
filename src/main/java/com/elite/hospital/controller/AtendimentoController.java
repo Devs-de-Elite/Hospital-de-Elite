@@ -39,9 +39,7 @@ public class AtendimentoController {
     }
 
     @PatchMapping("/{id}/observacoes")
-    public ResponseEntity<Atendimento> adicionarObservacao(
-            @PathVariable Long id, 
-            @RequestBody Map<String, String> payload) {
+    public ResponseEntity<Atendimento> adicionarObservacao(@PathVariable Long id, @RequestBody Map<String, String> payload) {
         
         String texto = payload.get("observacoes");
         
