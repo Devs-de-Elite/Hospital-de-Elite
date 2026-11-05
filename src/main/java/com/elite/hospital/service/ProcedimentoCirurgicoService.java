@@ -1,6 +1,6 @@
 package com.elite.hospital.service;
 
-import com.elite.hospital.enums.SituacaoProcedimento;
+import com.elite.hospital.enums.SituacaoConsulta;
 import com.elite.hospital.model.Cirurgiao;
 import com.elite.hospital.model.Paciente;
 import com.elite.hospital.model.Profissional;
@@ -38,8 +38,8 @@ public class ProcedimentoCirurgicoService {
             throw new RuntimeException("O profissional informado não é um cirurgião.");
         }
 
-        return procedimentoRepository.findByProfissionalResponsavelIdAndSituacaoProcedimento(
-                cirurgiaoId, SituacaoProcedimento.CONCLUIDO);
+        return procedimentoRepository.findByProfissionalResponsavelIdAndSituacao(
+                cirurgiaoId, SituacaoConsulta.CONCLUIDA);
     }
 
     public ProcedimentoCirurgico marcarProcedimento(ProcedimentoCirurgico procedimento, Long pacienteId, Long cirurgiaoId) {
@@ -50,45 +50,37 @@ public class ProcedimentoCirurgicoService {
 
         procedimento.setPaciente(paciente);
         procedimento.setProfissionalResponsavel(cirurgiao);
+        procedimento.setSituacao(null);
         procedimento.validarCondicoes();
-        procedimento.setSituacaoProcedimento(SituacaoProcedimento.AGENDADO);
+        procedimento.validarSituacao(SituacaoConsulta.AGENDADA);
+        procedimento.setSituacao(SituacaoConsulta.AGENDADA);
         return procedimentoRepository.save(procedimento);
     }
 
     public ProcedimentoCirurgico iniciar(Long id) {
         ProcedimentoCirurgico procedimento = buscar(id);
 
-        if (procedimento.getSituacaoProcedimento() != SituacaoProcedimento.AGENDADO) {
-            throw new RuntimeException("Só é possível iniciar um procedimento agendado.");
-        }
-
+        procedimento.validarSituacao(SituacaoConsulta.EM_ATENDIMENTO);
         procedimento.validarCondicoes();
         procedimento.setDataHoraEfetiva(LocalDateTime.now());
-        procedimento.setSituacaoProcedimento(SituacaoProcedimento.EM_ANDAMENTO);
+        procedimento.setSituacao(SituacaoConsulta.EM_ATENDIMENTO);
         return procedimentoRepository.save(procedimento);
     }
 
     public ProcedimentoCirurgico concluir(Long id, String observacoesPosOperatorias) {
         ProcedimentoCirurgico procedimento = buscar(id);
 
-        if (procedimento.getSituacaoProcedimento() != SituacaoProcedimento.EM_ANDAMENTO) {
-            throw new RuntimeException("Não é permitido concluir um procedimento que não foi iniciado.");
-        }
-
+        procedimento.validarSituacao(SituacaoConsulta.CONCLUIDA);
         procedimento.setObservacoesPosOperatorias(observacoesPosOperatorias);
-        procedimento.setSituacaoProcedimento(SituacaoProcedimento.CONCLUIDO);
+        procedimento.setSituacao(SituacaoConsulta.CONCLUIDA);
         return procedimentoRepository.save(procedimento);
     }
 
     public ProcedimentoCirurgico cancelar(Long id) {
         ProcedimentoCirurgico procedimento = buscar(id);
 
-        if (procedimento.getSituacaoProcedimento() == SituacaoProcedimento.CONCLUIDO
-                || procedimento.getSituacaoProcedimento() == SituacaoProcedimento.CANCELADO) {
-            throw new RuntimeException("Um procedimento concluído ou cancelado não pode ser cancelado.");
-        }
-
-        procedimento.setSituacaoProcedimento(SituacaoProcedimento.CANCELADO);
+        procedimento.validarSituacao(SituacaoConsulta.CANCELADA);
+        procedimento.setSituacao(SituacaoConsulta.CANCELADA);
         return procedimentoRepository.save(procedimento);
     }
 

@@ -1,6 +1,6 @@
 package com.elite.hospital.model;
 
-import com.elite.hospital.enums.SituacaoProcedimento;
+import com.elite.hospital.enums.SituacaoConsulta;
 import com.elite.hospital.enums.TipoCirurgia;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -16,9 +16,6 @@ public class ProcedimentoCirurgico extends Atendimento {
     private String observacoesPreOperatorias;
     private String observacoesPosOperatorias;
     private LocalDateTime dataHoraEfetiva;
-
-    @Enumerated(EnumType.STRING)
-    private SituacaoProcedimento situacaoProcedimento;
 
     public String getDescricao() {
         return descricao;
@@ -60,14 +57,6 @@ public class ProcedimentoCirurgico extends Atendimento {
         this.dataHoraEfetiva = dataHoraEfetiva;
     }
 
-    public SituacaoProcedimento getSituacaoProcedimento() {
-        return situacaoProcedimento;
-    }
-
-    public void setSituacaoProcedimento(SituacaoProcedimento situacaoProcedimento) {
-        this.situacaoProcedimento = situacaoProcedimento;
-    }
-
     @Override
     public void validarCondicoes() {
         super.validarCondicoes();
@@ -79,6 +68,39 @@ public class ProcedimentoCirurgico extends Atendimento {
         }
         if (tipoCirurgia == null) {
             throw new RuntimeException("O procedimento cirúrgico deve informar o tipo de cirurgia.");
+        }
+    }
+
+    public void validarSituacao(SituacaoConsulta novaSituacao) {
+        SituacaoConsulta situacaoAtual = getSituacao();
+
+        if (novaSituacao == SituacaoConsulta.CONFIRMADA || novaSituacao == SituacaoConsulta.NAO_COMPARECEU) {
+            throw new RuntimeException("Um procedimento cirúrgico não pode ficar como " + novaSituacao + ".");
+        }
+
+        if (situacaoAtual == null) {
+            if (novaSituacao != SituacaoConsulta.AGENDADA) {
+                throw new RuntimeException("Um procedimento cirúrgico novo deve começar como AGENDADA.");
+            }
+            return;
+        }
+
+        if (novaSituacao == SituacaoConsulta.CONCLUIDA
+                && (situacaoAtual != SituacaoConsulta.EM_ATENDIMENTO || dataHoraEfetiva == null)) {
+            throw new RuntimeException("Não é permitido concluir um procedimento que não foi iniciado.");
+        }
+
+        boolean permitido = switch (situacaoAtual) {
+            case AGENDADA -> novaSituacao == SituacaoConsulta.EM_ATENDIMENTO
+                    || novaSituacao == SituacaoConsulta.CANCELADA;
+            case EM_ATENDIMENTO -> novaSituacao == SituacaoConsulta.CONCLUIDA
+                    || novaSituacao == SituacaoConsulta.CANCELADA;
+            default -> false;
+        };
+
+        if (!permitido) {
+            throw new RuntimeException("Não é possível alterar o procedimento de " + situacaoAtual
+                    + " para " + novaSituacao + ".");
         }
     }
 }

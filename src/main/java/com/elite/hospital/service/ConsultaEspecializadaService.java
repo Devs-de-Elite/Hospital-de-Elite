@@ -36,7 +36,9 @@ public class ConsultaEspecializadaService {
 
         consulta.setPaciente(paciente);
         consulta.setProfissionalResponsavel(profissional);
+        consulta.setSituacao(null);
         consulta.validarCondicoes();
+        consulta.validarSituacao(SituacaoConsulta.AGENDADA);
         consulta.setSituacao(SituacaoConsulta.AGENDADA);
         return consultaRepository.save(consulta);
     }
@@ -45,22 +47,7 @@ public class ConsultaEspecializadaService {
         ConsultaEspecializada consulta = consultaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Consulta não encontrada!"));
 
-        SituacaoConsulta situacaoAtual = consulta.getSituacao();
-
-        boolean permitido = switch (situacaoAtual) {
-            case AGENDADA -> novaSituacao == SituacaoConsulta.CONFIRMADA
-                    || novaSituacao == SituacaoConsulta.CANCELADA
-                    || novaSituacao == SituacaoConsulta.NAO_COMPARECEU;
-            case CONFIRMADA -> novaSituacao == SituacaoConsulta.EM_ATENDIMENTO
-                    || novaSituacao == SituacaoConsulta.CANCELADA
-                    || novaSituacao == SituacaoConsulta.NAO_COMPARECEU;
-            case EM_ATENDIMENTO -> novaSituacao == SituacaoConsulta.CONCLUIDA;
-            default -> false;
-        };
-
-        if (!permitido) {
-            throw new RuntimeException("Não é possível alterar a consulta de " + situacaoAtual + " para " + novaSituacao + ".");
-        }
+        consulta.validarSituacao(novaSituacao);
 
         if (novaSituacao == SituacaoConsulta.EM_ATENDIMENTO) {
             consulta.validarCondicoes();

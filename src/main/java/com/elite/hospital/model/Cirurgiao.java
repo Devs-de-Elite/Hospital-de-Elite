@@ -5,13 +5,13 @@ import jakarta.persistence.Entity;
 @Entity
 public class Cirurgiao extends Profissional {
 
-    private String areaCirurgica;
+    private String atuacaoCirurgica;
 
-    public String getAreaCirurgica() {
-        return areaCirurgica;
+    public String getAtuacaoCirurgica() {
+        return atuacaoCirurgica;
     }
 
-    public void setAreaCirurgica(String areaCirurgica) {
-        this.areaCirurgica = areaCirurgica;
+    public void setAtuacaoCirurgica(String atuacaoCirurgica) {
+        this.atuacaoCirurgica = atuacaoCirurgica;
     }
 }
