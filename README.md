@@ -2,7 +2,7 @@
 Trabalho Glender PM
 
 ## UML
-![alt text](docs/SistemaHospitalar.drawio.png)
+![UML](docs/DiagramaSprint2.jpg)
 
 ## CRC
 [CRC](<docs/Cartões CRC.pdf>)
