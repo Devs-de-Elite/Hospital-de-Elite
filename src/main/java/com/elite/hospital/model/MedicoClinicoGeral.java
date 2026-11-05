@@ -1,11 +1,16 @@
 package com.elite.hospital.model;
 
+import org.jspecify.annotations.NonNull;
+
 import java.util.ArrayList;
 
 public class MedicoClinicoGeral extends Profissional{
     private ArrayList<ConsultaRotina> listaConsultas;
 
-    public void RealizarConsulta(ConsultaRotina consulta, String observacoes){
+
+
+    @Override
+    public void RealizarAtendimento(ConsultaRotina consulta, String observacoes){
         if (consulta.situacao == SituacaoConsulta.CONFIRMADA) {
             consulta.observacoes = observacoes;
             listaConsultas.add(consulta);

@@ -6,7 +6,7 @@ public class Cirurgiao extends Profissional{
     private String atuacaoCirurgica;
     private ArrayList<ProcedimentoCirurgico> listaProcedimentos;
 
-    public void RealizarProcedimento(ProcedimentoCirurgico procedimento, String observacao) {
+    public void RealizarAtendimento(ProcedimentoCirurgico procedimento, String observacao) {
         if (procedimento.situacao == SituacaoProcedimento.AGENDADO) {
             procedimento.observacoes = observacoes;
             listaProcedimentos.add(procedimento);
