@@ -23,6 +23,21 @@ public class AtendimentoController {
         return atendimentoService.listarTodos();
     }
 
+    @GetMapping
+    public ResponseEntity<List<Atendimento>> listarAtendimentos(
+            @RequestParam(required = false) String filtro) {
+
+        if ("pendentes".equalsIgnoreCase(filtro)) {
+            return ResponseEntity.ok(atendimentoService.listarAguardandoAvaliacao());
+        } 
+        
+        if ("avaliados".equalsIgnoreCase(filtro)) {
+            return ResponseEntity.ok(atendimentoService.listarAvaliados());
+        }
+
+        return ResponseEntity.ok(atendimentoService.listarTodos());
+    }
+    
     @PostMapping
     public ResponseEntity<Atendimento> marcarAtendimento(@RequestBody Atendimento atendimento) {
         Atendimento novoAtendimento = atendimentoService.marcarAtendimento(atendimento);

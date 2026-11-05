@@ -60,4 +60,15 @@ public class AtendimentoService {
         consulta.setObservacoes(textoObs);
         return atendimentoRepository.save(consulta);
     }
+
+    public List<Atendimento> listarAguardandoAvaliacao() {
+        return atendimentoRepository.findBySituacaoIn(
+            List.of(SituacaoConsulta.AGENDADA, SituacaoConsulta.EM_ATENDIMENTO)
+        );
+    }
+
+    public List<Atendimento> listarAvaliados() {
+        return atendimentoRepository.findBySituacao(SituacaoConsulta.CONCLUIDA);
+    }
+    
 }
