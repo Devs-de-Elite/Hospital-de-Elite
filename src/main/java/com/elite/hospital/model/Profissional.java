@@ -9,11 +9,12 @@ public abstract class Profissional {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nome;
     private String registroProfissional; // CRM
     private String telefone;
     private String email;
+
+    public abstract void RealizarAtendimento(Atendimento atendimento, String observacoes);
 
     public Long getId() {
         return id;

@@ -1,17 +1,18 @@
 package com.elite.hospital.model;
 
-import jakarta.persistence.Entity;
+import java.util.ArrayList;
 
-@Entity
-public class Cirurgiao extends Profissional {
-
+public class Cirurgiao extends Profissional{
     private String atuacaoCirurgica;
+    private ArrayList<ProcedimentoCirurgico> listaProcedimentos;
 
-    public String getAtuacaoCirurgica() {
-        return atuacaoCirurgica;
-    }
-
-    public void setAtuacaoCirurgica(String atuacaoCirurgica) {
-        this.atuacaoCirurgica = atuacaoCirurgica;
+    public void RealizarAtendimento(ProcedimentoCirurgico procedimento, String observacao) {
+        if (procedimento.situacao == SituacaoProcedimento.AGENDADO) {
+            procedimento.observacoes = observacoes;
+            listaProcedimentos.add(procedimento);
+            procedimento.situacao = SituacaoProcedimento.CONCLUIDA;
+        } else {
+            System.out.println("Essa procedimento já foi ou não pode ser realizado");
+        }
     }
 }
