@@ -50,10 +50,16 @@ public class ProcedimentoCirurgicoService {
 
         procedimento.setPaciente(paciente);
         procedimento.setProfissionalResponsavel(cirurgiao);
-        procedimento.setSituacao(null);
+        if (procedimento.getId() != null) {
+            throw new RuntimeException("Um novo atendimento não deve informar ID.");
+        }
+        procedimento.setDataHoraEfetiva(null);
         procedimento.validarCondicoes();
-        procedimento.validarSituacao(SituacaoConsulta.AGENDADA);
-        procedimento.setSituacao(SituacaoConsulta.AGENDADA);
+        if (procedimento.getSituacao() == null) {
+            procedimento.setSituacao(SituacaoConsulta.AGENDADA);
+        } else if (procedimento.getSituacao() != SituacaoConsulta.AGENDADA) {
+            throw new RuntimeException("Um novo atendimento deve começar como AGENDADA.");
+        }
         return procedimentoRepository.save(procedimento);
     }
 

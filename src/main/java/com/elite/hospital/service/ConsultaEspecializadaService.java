@@ -36,10 +36,15 @@ public class ConsultaEspecializadaService {
 
         consulta.setPaciente(paciente);
         consulta.setProfissionalResponsavel(profissional);
-        consulta.setSituacao(null);
+        if (consulta.getId() != null) {
+            throw new RuntimeException("Um novo atendimento não deve informar ID.");
+        }
         consulta.validarCondicoes();
-        consulta.validarSituacao(SituacaoConsulta.AGENDADA);
-        consulta.setSituacao(SituacaoConsulta.AGENDADA);
+        if (consulta.getSituacao() == null) {
+            consulta.setSituacao(SituacaoConsulta.AGENDADA);
+        } else if (consulta.getSituacao() != SituacaoConsulta.AGENDADA) {
+            throw new RuntimeException("Um novo atendimento deve começar como AGENDADA.");
+        }
         return consultaRepository.save(consulta);
     }
 
