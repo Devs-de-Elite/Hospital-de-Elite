@@ -11,17 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/atendimentos")
+@RequestMapping({"/api/atendimentos", "/consultas", "/api/consultas"})
 @CrossOrigin(origins = "*")
 public class AtendimentoController {
 
     @Autowired
     private AtendimentoService atendimentoService;
-
-    @GetMapping
-    public List<Atendimento> listarTodos() {
-        return atendimentoService.listarTodos();
-    }
 
     @GetMapping
     public ResponseEntity<List<Atendimento>> listarAtendimentos(
@@ -39,8 +34,9 @@ public class AtendimentoController {
     }
     
     @PostMapping
-    public ResponseEntity<Atendimento> marcarAtendimento(@RequestBody Atendimento atendimento) {
-        Atendimento novoAtendimento = atendimentoService.marcarAtendimento(atendimento);
+    public ResponseEntity<Atendimento> marcarAtendimento(@RequestBody Atendimento atendimento,
+            @RequestParam Long pacienteId, @RequestParam Long profissionalId) {
+        Atendimento novoAtendimento = atendimentoService.marcarAtendimento(atendimento, pacienteId, profissionalId);
         return ResponseEntity.ok(novoAtendimento);
     }
 
