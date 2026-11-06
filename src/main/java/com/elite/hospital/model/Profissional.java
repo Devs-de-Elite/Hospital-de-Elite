@@ -1,7 +1,16 @@
 package com.elite.hospital.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.OptBoolean;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "tipo", requireTypeIdForSubtypes = OptBoolean.FALSE)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = MedicoClinicoGeral.class, name = "CLINICO_GERAL"),
+    @JsonSubTypes.Type(value = MedicoEspecialista.class, name = "ESPECIALISTA"),
+    @JsonSubTypes.Type(value = Cirurgiao.class, name = "CIRURGIAO")
+})
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Profissional {
@@ -13,8 +22,25 @@ public abstract class Profissional {
     private String registroProfissional; // CRM
     private String telefone;
     private String email;
+    private boolean disponivel = true;
 
     public abstract void RealizarAtendimento(Atendimento atendimento, String observacoes);
+
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
+    }
+
+    protected void validarResponsabilidade(Atendimento atendimento) {
+        Profissional responsavel = atendimento.getProfissionalResponsavel();
+        if (responsavel != this && (id == null || responsavel == null || !id.equals(responsavel.getId()))) {
+            throw new RuntimeException("O profissional não é responsável por este atendimento.");
+        }
+        atendimento.validarCondicoes();
+    }
 
     public Long getId() {
         return id;

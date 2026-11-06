@@ -2,8 +2,18 @@ package com.elite.hospital.model;
 
 import com.elite.hospital.enums.SituacaoConsulta;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.OptBoolean;
 import java.time.LocalDateTime;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "tipo", requireTypeIdForSubtypes = OptBoolean.FALSE)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = ConsultaRotina.class, name = "ROTINA"),
+    @JsonSubTypes.Type(value = ConsultaEspecializada.class, name = "ESPECIALIZADA"),
+    @JsonSubTypes.Type(value = AtendimentoEmergencia.class, name = "EMERGENCIA"),
+    @JsonSubTypes.Type(value = ProcedimentoCirurgico.class, name = "CIRURGICO")
+})
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Atendimento{
@@ -42,6 +52,7 @@ public abstract class Atendimento{
     }
 
     public void setSituacao(SituacaoConsulta situacao) {
+        validarSituacao(situacao);
         this.situacao = situacao;
     }
 
@@ -58,6 +69,37 @@ public abstract class Atendimento{
 
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
+    }
+
+    public void validarSituacao(SituacaoConsulta novaSituacao) {
+        if (novaSituacao == null) {
+            throw new RuntimeException("A situação deve ser informada.");
+        }
+        if (situacao == null) {
+            if (novaSituacao != SituacaoConsulta.AGENDADA) {
+                throw new RuntimeException("Um atendimento novo deve começar como AGENDADA.");
+            }
+            return;
+        }
+        boolean permitido = false;
+            
+        if (situacao == SituacaoConsulta.AGENDADA) {
+            permitido = novaSituacao == SituacaoConsulta.CONFIRMADA
+                    || novaSituacao == SituacaoConsulta.CANCELADA
+                    || novaSituacao == SituacaoConsulta.NAO_COMPARECEU;
+        
+        } else if (situacao == SituacaoConsulta.CONFIRMADA) {
+            permitido = novaSituacao == SituacaoConsulta.EM_ATENDIMENTO
+                    || novaSituacao == SituacaoConsulta.CANCELADA
+                    || novaSituacao == SituacaoConsulta.NAO_COMPARECEU;
+        
+        } else if (situacao == SituacaoConsulta.EM_ATENDIMENTO) {
+            permitido = novaSituacao == SituacaoConsulta.CONCLUIDA;
+        }
+        
+        if (!permitido && situacao != novaSituacao) {
+            throw new RuntimeException("Não é possível alterar o atendimento de " + situacao + " para " + novaSituacao + ".");
+        }
     }
 
     public void validarCondicoes() {

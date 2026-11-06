@@ -73,6 +73,9 @@ public class ProcedimentoCirurgico extends Atendimento {
 
     public void validarSituacao(SituacaoConsulta novaSituacao) {
         SituacaoConsulta situacaoAtual = getSituacao();
+        if (novaSituacao == null) {
+            throw new RuntimeException("A situação deve ser informada.");
+        }
 
         if (novaSituacao == SituacaoConsulta.CONFIRMADA || novaSituacao == SituacaoConsulta.NAO_COMPARECEU) {
             throw new RuntimeException("Um procedimento cirúrgico não pode ficar como " + novaSituacao + ".");

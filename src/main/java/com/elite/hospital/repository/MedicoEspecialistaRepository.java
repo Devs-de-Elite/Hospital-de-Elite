@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface MedicoEspecialistaRepository extends JpaRepository<MedicoEspecialista, Long> {
 
-    List<MedicoEspecialista> findByEspecialidade(Especialidade especialidade);
+    List<MedicoEspecialista> findByEspecialidadeAndDisponivelTrue(Especialidade especialidade);
+    List<MedicoEspecialista> findByDisponivelTrue();
 }

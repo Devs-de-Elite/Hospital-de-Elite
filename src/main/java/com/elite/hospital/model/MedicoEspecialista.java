@@ -1,18 +1,42 @@
 package com.elite.hospital.model;
 
-public class MedicoEspecialista extends Profissional{
-    private String especilizacao;
+import com.elite.hospital.enums.Especialidade;
+import com.elite.hospital.enums.SituacaoConsulta;
+import jakarta.persistence.*;
 
-    public void RealizarAtendimento(ConsultaEspecializada consulta, String observacao){
-        if (consulta.getEspecialidade.equals(especilizacao)){
-            if (consulta.situacao == SituacaoConsulta.CONFIRMADA) {
-                consulta.observacoes = observacoes;
-                consulta.situacao = SituacaoConsulta.CONCLUIDA;
-            } else {
-                System.out.println("Essa consulta já foi ou não pode ser realizada");
+@Entity
+public class MedicoEspecialista extends Profissional {
+
+    @Enumerated(EnumType.STRING)
+    private Especialidade especialidade;
+
+    public Especialidade getEspecialidade() {
+        return especialidade;
+    }
+
+    public void setEspecialidade(Especialidade especialidade) {
+        this.especialidade = especialidade;
+    }
+
+    @Override
+    public void RealizarAtendimento(Atendimento atendimento, String observacoes) {
+        validarResponsabilidade(atendimento);
+        if (atendimento instanceof ConsultaEspecializada consulta) {
+            if (consulta.getSituacao() == SituacaoConsulta.CONFIRMADA) {
+                consulta.setSituacao(SituacaoConsulta.EM_ATENDIMENTO);
             }
+            if (consulta.getSituacao() != SituacaoConsulta.EM_ATENDIMENTO) {
+                throw new RuntimeException("A consulta não está em atendimento.");
+            }
+            consulta.setObservacoes(observacoes);
+            consulta.setSituacao(SituacaoConsulta.CONCLUIDA);
+        } else if (atendimento instanceof AtendimentoEmergencia) {
+            if (atendimento.getSituacao() != SituacaoConsulta.EM_ATENDIMENTO) {
+                throw new RuntimeException("A emergência não foi iniciada.");
+            }
+            atendimento.setSituacao(SituacaoConsulta.CONCLUIDA);
         } else {
-            System.out.print("Esse profissonal não realiza consultas dessa área médica.");
+            throw new RuntimeException("O especialista não realiza esta modalidade de atendimento.");
         }
     }
 }
